@@ -1,5 +1,7 @@
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/nekos.png)
-<div align="center"># Nekos Viewer</div>
+<div align="center">
+  # Nekos Viewer
+</div>
 
 [![Version](https://img.shields.io/badge/version-1.0.2-blue)](https://github.com/MinftLeve1/nekos-viewer/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
