@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Nekos Viewer
+Name[zh_CN]=Nekos 图片查看器
+Comment=Fetch random images from Nekos.moe
+Comment[zh_CN]=从 Nekos.moe 获取随机图片
+Exec=nekos-viewer
+Icon=nekos-viewer
+Type=Application
+Categories=Network;Graphics;Viewer;
+Terminal=false
+StartupNotify=true

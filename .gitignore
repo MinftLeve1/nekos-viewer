@@ -1,0 +1,17 @@
+# Build artifacts
+*.deb
+nekos-viewer-build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

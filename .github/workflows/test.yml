@@ -1,0 +1,40 @@
+name: Test Package Installation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-install:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install runtime dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
+
+    - name: Build package
+      run: |
+        chmod +x build-nekos-viewer.sh
+        ./build-nekos-viewer.sh
+
+    - name: Test installation
+      run: |
+        sudo dpkg -i ~/nekos-viewer_*.deb || true
+        sudo apt --fix-broken install -y
+
+    - name: Verify installation
+      run: |
+        which nekos-viewer
+        dpkg -L nekos-viewer | head -20
+
+    - name: Test removal
+      run: |
+        sudo dpkg -r nekos-viewer

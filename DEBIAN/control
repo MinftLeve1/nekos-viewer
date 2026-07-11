@@ -1,0 +1,11 @@
+Package: nekos-viewer
+Version: 1.0.2
+Section: web
+Priority: optional
+Architecture: all
+Depends: python3, python3-gi, gir1.2-gtk-4.0, gir1.2-gdkpixbuf-2.0
+Maintainer: Nekos Viewer Team <13378290421@163.com>
+Description: Random image viewer for Nekos.moe
+ A simple GTK4 application that fetches and displays random
+ images from the Nekos.moe API. Features menu bar, NSFW toggle,
+ image save, and about dialog. Build 26-07-11_03.
