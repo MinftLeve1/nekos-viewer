@@ -23,7 +23,7 @@
 ### Debian / Ubuntu
 
 ```bash
-wget https://github.com/$GITHUB_USER/nekos-viewer/releases/download/v1.0.2/nekos-viewer_1.0.2_all.deb
+wget https://github.com/MinftLeve1/nekos-viewer/releases/download/v1.0.2/nekos-viewer_1.0.2_all.deb
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
 sudo dpkg -i nekos-viewer_1.0.2_all.deb
 sudo apt --fix-broken install
