@@ -1,9 +1,9 @@
 # 🐱 Nekos Viewer
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue)](https://github.com/$GITHUB_USER/nekos-viewer/releases)
+[![Version](https://img.shields.io/badge/version-1.0.2-blue)](https://github.com/MinftLeve1/nekos-viewer/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)](https://github.com/$GITHUB_USER/nekos-viewer)
-[![CI](https://github.com/$GITHUB_USER/nekos-viewer/actions/workflows/build.yml/badge.svg)](https://github.com/$GITHUB_USER/nekos-viewer/actions)
+[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)](https://github.com/MinftLeve1/nekos-viewer)
+[![CI](https://github.com/MinftLeve1/nekos-viewer/actions/workflows/build.yml/badge.svg)](https://github.com/MinftLeve1/nekos-viewer/actions)
 
 > A simple GTK4 application for fetching and displaying random images from [Nekos.moe](https://nekos.moe)
 ## Screenshot
