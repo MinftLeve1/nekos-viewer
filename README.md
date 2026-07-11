@@ -32,7 +32,7 @@ sudo apt --fix-broken install
 ### From Source
 
 ```bash
-git clone https://github.com/$GITHUB_USER/nekos-viewer.git
+git clone https://github.com/MinftLeve1/nekos-viewer.git
 cd nekos-viewer
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
 python3 usr/share/nekos-viewer/nekos-viewer.py
