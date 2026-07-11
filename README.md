@@ -6,7 +6,7 @@
 [![CI](https://github.com/$GITHUB_USER/nekos-viewer/actions/workflows/build.yml/badge.svg)](https://github.com/$GITHUB_USER/nekos-viewer/actions)
 
 > A simple GTK4 application for fetching and displaying random images from [Nekos.moe](https://nekos.moe)
-# 
+## Screenshot
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ## ✨ Features
 
