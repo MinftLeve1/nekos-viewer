@@ -1,4 +1,6 @@
-![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/nekos.png)
+<p align="center">
+  <img src="https://3w.mky-an20.os.kg/nekos-viewer/nekos.png" alt="图标"/>
+</p>
 <div align="center">
   # Nekos Viewer
 </div>
