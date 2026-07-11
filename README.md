@@ -2,7 +2,7 @@
   <img src="https://3w.mky-an20.os.kg/nekos-viewer/nekos.png" alt="图标"/>
 </p>
 <div align="center">
-  # Nekos Viewer
+ Nekos Viewer
 </div>
 
 [![Version](https://img.shields.io/badge/version-1.0.2-blue)](https://github.com/MinftLeve1/nekos-viewer/releases)
