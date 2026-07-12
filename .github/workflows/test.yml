@@ -1,4 +1,4 @@
-name: Test Package Installation
+name: Test Package Installation (Fixed)
 
 on:
   push:
@@ -18,16 +18,77 @@ jobs:
     - name: Install runtime dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
+        sudo apt-get install -y python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0 dpkg-dev fakeroot
 
-    - name: Build package
+    - name: Build package (inline)
       run: |
-        chmod +x build-nekos-viewer.sh
-        ./build-nekos-viewer.sh
+        WORK_DIR="$(pwd)/nekos-viewer-build"
+        DEB_DIR="$WORK_DIR/nekos-viewer-deb"
+        
+        rm -rf "$WORK_DIR"
+        mkdir -p "$DEB_DIR/DEBIAN"
+        mkdir -p "$DEB_DIR/usr/bin"
+        mkdir -p "$DEB_DIR/usr/share/nekos-viewer"
+        mkdir -p "$DEB_DIR/usr/share/applications"
+        mkdir -p "$DEB_DIR/usr/share/pixmaps"
+
+        if [ -f "nekos-viewer.py" ]; then
+          cp nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
+        elif [ -f "src/linux/nekos-viewer.py" ]; then
+          cp src/linux/nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
+        elif [ -f "usr/share/nekos-viewer/nekos-viewer.py" ]; then
+          cp usr/share/nekos-viewer/nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
+        else
+          echo "ERROR: nekos-viewer.py not found"
+          exit 1
+        fi
+
+        chmod 755 "$DEB_DIR/usr/share/nekos-viewer/nekos-viewer.py"
+
+        cat > "$DEB_DIR/usr/bin/nekos-viewer" << 'BINEOF'
+#!/bin/bash
+exec python3 /usr/share/nekos-viewer/nekos-viewer.py "$@"
+BINEOF
+        chmod 755 "$DEB_DIR/usr/bin/nekos-viewer"
+
+        cat > "$DEB_DIR/usr/share/applications/nekos-viewer.desktop" << 'DESKEOF'
+[Desktop Entry]
+Name=Nekos Viewer
+Exec=nekos-viewer
+Icon=nekos-viewer
+Type=Application
+Categories=Network;Graphics;
+Terminal=false
+DESKEOF
+
+        if [ -f "nekos-viewer.png" ]; then
+          cp nekos-viewer.png "$DEB_DIR/usr/share/pixmaps/"
+          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.png"
+        elif [ -f "nekos-viewer.svg" ]; then
+          cp nekos-viewer.svg "$DEB_DIR/usr/share/pixmaps/"
+          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg"
+        fi
+
+        cat > "$DEB_DIR/DEBIAN/control" << 'CTRLEOF'
+Package: nekos-viewer
+Version: 1.0.3
+Section: web
+Priority: optional
+Architecture: all
+Depends: python3, python3-gi, gir1.2-gtk-4.0, gir1.2-gdkpixbuf-2.0
+Maintainer: Nekos Viewer Team <13378290421@163.com>
+Description: Random image viewer for Nekos.moe
+ A simple GTK4 application for Nekos.moe API.
+CTRLEOF
+
+        chmod 755 "$DEB_DIR/DEBIAN"
+        chmod 644 "$DEB_DIR/DEBIAN/control"
+
+        dpkg-deb --build "$DEB_DIR" nekos-viewer_test_all.deb
 
     - name: Test installation
       run: |
-        sudo dpkg -i ~/nekos-viewer_*.deb || true
+        sudo dpkg -i nekos-viewer_test_all.deb || true
         sudo apt --fix-broken install -y
 
     - name: Verify installation
