@@ -1,19 +1,21 @@
-<p align="center">
+readme_content = r'''<p align="center">
   <img src="https://3w.mky-an20.os.kg/nekos-viewer/nekos.png" alt="图标"/>
 </p>
 <div align="center">
  Nekos Viewer
 </div>
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue)](https://github.com/MinftLeve1/nekos-viewer/releases)
+[![Version](https://img.shields.io/badge/version-1.0.3-blue)](https://github.com/MinftLeve1/nekos-viewer/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)](https://github.com/MinftLeve1/nekos-viewer)
 [![CI](https://github.com/MinftLeve1/nekos-viewer/actions/workflows/build.yml/badge.svg)](https://github.com/MinftLeve1/nekos-viewer/actions)
 
 > A simple GTK4 application for fetching and displaying random images from [Nekos.moe](https://nekos.moe)
+
 ## Screenshot
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot2.png)
+
 ## ✨ Features
 
 - 🎲 **One-click refresh** - Get a new random image instantly
@@ -29,9 +31,9 @@
 ### Debian / Ubuntu
 
 ```bash
-wget https://github.com/MinftLeve1/nekos-viewer/releases/download/v1.0.2/nekos-viewer_1.0.2_all.deb
+wget https://github.com/MinftLeve1/nekos-viewer/releases/download/v1.0.3/nekos-viewer_1.0.3_all.deb
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
-sudo dpkg -i nekos-viewer_1.0.2_all.deb
+sudo dpkg -i nekos-viewer_1.0.3_all.deb
 sudo apt --fix-broken install
 ```
 
@@ -41,7 +43,7 @@ sudo apt --fix-broken install
 git clone https://github.com/MinftLeve1/nekos-viewer.git
 cd nekos-viewer
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
-python3 usr/share/nekos-viewer/nekos-viewer.py
+python3 nekos-viewer.py
 ```
 
 ## 🚀 Usage
@@ -69,3 +71,4 @@ MIT License - See [LICENSE](LICENSE)
 
 - [Nekos.moe](https://nekos.moe) - API by Brussell
 - MKY-AN20 & Kimi AI - Developers
+'''
