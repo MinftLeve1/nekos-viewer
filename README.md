@@ -11,7 +11,7 @@
 [![CI](https://github.com/MinftLeve1/nekos-viewer/actions/workflows/build.yml/badge.svg)](https://github.com/MinftLeve1/nekos-viewer/actions)
 
 > A simple GTK4 application for fetching and displaying random images from [Nekos.moe](https://nekos.moe)
-# <p>Warning, the screenshot is outdated! 
+<p>Warning, the screenshot is outdated! 
 <br>
 
 ## Screenshot
