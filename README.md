@@ -13,7 +13,7 @@
 > A simple GTK4 application for fetching and displaying random images from [Nekos.moe](https://nekos.moe)
 # <p>Warning, the screenshot is outdated! 
 <br>
-Version 1.0.3 has changes that don't match the screenshot.</p>
+
 ## Screenshot
 Screenshot![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot2.png)
