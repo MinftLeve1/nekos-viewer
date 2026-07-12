@@ -15,7 +15,7 @@
 <br>
 Version 1.0.3 has changes that don't match the screenshot.</p>
 ## Screenshot
-![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
+Screenshot![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot2.png)
 
 ## ✨ Features
