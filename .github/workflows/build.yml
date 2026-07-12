@@ -30,57 +30,78 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y dpkg-dev fakeroot
 
-    - name: Debug - Check repository structure
+    - name: Build .deb (inline)
       run: |
-        echo "=== Repository root ==="
-        pwd
-        ls -la
-        echo "=== Looking for source files ==="
-        find . -maxdepth 2 -name "nekos-viewer.py" -type f 2>/dev/null || echo "No nekos-viewer.py found"
-        find . -maxdepth 2 -name "*.py" -type f | head -20
-
-    - name: Build .deb
-      run: |
-        mkdir -p nekos-viewer-deb/DEBIAN
-        mkdir -p nekos-viewer-deb/usr/bin
-        mkdir -p nekos-viewer-deb/usr/share/nekos-viewer
-        mkdir -p nekos-viewer-deb/usr/share/applications
-        mkdir -p nekos-viewer-deb/usr/share/pixmaps
-
+        WORK_DIR="$(pwd)/nekos-viewer-build"
+        DEB_DIR="$WORK_DIR/nekos-viewer-deb"
+        
+        echo "🐱 Building Nekos Viewer .deb package..."
+        
+        rm -rf "$WORK_DIR"
+        mkdir -p "$DEB_DIR/DEBIAN"
+        mkdir -p "$DEB_DIR/usr/bin"
+        mkdir -p "$DEB_DIR/usr/share/nekos-viewer"
+        mkdir -p "$DEB_DIR/usr/share/applications"
+        mkdir -p "$DEB_DIR/usr/share/pixmaps"
+        
         if [ -f "nekos-viewer.py" ]; then
-          echo "Found: nekos-viewer.py in root"
-          cp nekos-viewer.py nekos-viewer-deb/usr/share/nekos-viewer/
+          cp nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
         elif [ -f "src/linux/nekos-viewer.py" ]; then
-          echo "Found: src/linux/nekos-viewer.py"
-          cp src/linux/nekos-viewer.py nekos-viewer-deb/usr/share/nekos-viewer/
+          cp src/linux/nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
         elif [ -f "usr/share/nekos-viewer/nekos-viewer.py" ]; then
-          echo "Found: usr/share/nekos-viewer/nekos-viewer.py"
-          cp usr/share/nekos-viewer/nekos-viewer.py nekos-viewer-deb/usr/share/nekos-viewer/
+          cp usr/share/nekos-viewer/nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
         else
           echo "ERROR: nekos-viewer.py not found!"
           exit 1
         fi
         
-        chmod 755 nekos-viewer-deb/usr/share/nekos-viewer/nekos-viewer.py
-
-        cat > nekos-viewer-deb/usr/bin/nekos-viewer << 'BINEOF'
+        chmod 755 "$DEB_DIR/usr/share/nekos-viewer/nekos-viewer.py"
+        
+        cat > "$DEB_DIR/usr/bin/nekos-viewer" << 'BINEOF'
 #!/bin/bash
 exec python3 /usr/share/nekos-viewer/nekos-viewer.py "$@"
 BINEOF
-        chmod 755 nekos-viewer-deb/usr/bin/nekos-viewer
-
-        cat > nekos-viewer-deb/usr/share/applications/nekos-viewer.desktop << 'DESKEOF'
+        chmod 755 "$DEB_DIR/usr/bin/nekos-viewer"
+        
+        cat > "$DEB_DIR/usr/share/applications/nekos-viewer.desktop" << 'DESKEOF'
 [Desktop Entry]
 Name=Nekos Viewer
+Name[zh_CN]=Nekos 图片查看器
+Comment=Fetch random images from Nekos.moe
+Comment[zh_CN]=从 Nekos.moe 获取随机图片
 Exec=nekos-viewer
 Icon=nekos-viewer
 Type=Application
-Categories=Network;Graphics;
+Categories=Network;Graphics;Viewer;
 Terminal=false
+StartupNotify=true
 DESKEOF
-
+        
+        if [ -f "nekos-viewer.png" ]; then
+          cp nekos-viewer.png "$DEB_DIR/usr/share/pixmaps/"
+          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.png"
+        elif [ -f "nekos-viewer.svg" ]; then
+          cp nekos-viewer.svg "$DEB_DIR/usr/share/pixmaps/"
+          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg"
+        else
+          cat > "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg" << 'SVGEOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="24" fill="#1a1a2e"/>
+  <polygon points="28,45 45,20 55,50" fill="#ff6b6b"/>
+  <polygon points="100,45 83,20 73,50" fill="#ff6b6b"/>
+  <circle cx="64" cy="70" r="32" fill="#2d2d44"/>
+  <ellipse cx="52" cy="65" rx="6" ry="8" fill="#feca57"/>
+  <ellipse cx="76" cy="65" rx="6" ry="8" fill="#feca57"/>
+  <circle cx="53" cy="64" r="3" fill="#1a1a2e"/>
+  <circle cx="77" cy="64" r="3" fill="#1a1a2e"/>
+</svg>
+SVGEOF
+          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg"
+        fi
+        
         VERSION_CLEAN="${VERSION#v}"
-        cat > nekos-viewer-deb/DEBIAN/control << CTRLEOF
+        cat > "$DEB_DIR/DEBIAN/control" << CTRLEOF
 Package: nekos-viewer
 Version: ${VERSION_CLEAN}
 Section: web
@@ -91,11 +112,11 @@ Maintainer: Nekos Viewer Team <13378290421@163.com>
 Description: Random image viewer for Nekos.moe
  A simple GTK4 application for Nekos.moe API.
 CTRLEOF
-
-        chmod 755 nekos-viewer-deb/DEBIAN
-        chmod 644 nekos-viewer-deb/DEBIAN/control
-
-        dpkg-deb --build nekos-viewer-deb "nekos-viewer_${VERSION_CLEAN}_all.deb"
+        
+        chmod 755 "$DEB_DIR/DEBIAN"
+        chmod 644 "$DEB_DIR/DEBIAN/control"
+        
+        dpkg-deb --build "$DEB_DIR" "nekos-viewer_${VERSION_CLEAN}_all.deb"
         
         echo "=== Build output ==="
         ls -la nekos-viewer_*.deb
