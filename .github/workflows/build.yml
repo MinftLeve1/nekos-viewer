@@ -30,12 +30,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y dpkg-dev fakeroot
 
-    - name: Build .deb (inline)
+    - name: Build .deb package
       run: |
+        set -e
         WORK_DIR="$(pwd)/nekos-viewer-build"
         DEB_DIR="$WORK_DIR/nekos-viewer-deb"
         
-        echo "🐱 Building Nekos Viewer .deb package..."
+        echo "Building Nekos Viewer .deb package..."
         
         rm -rf "$WORK_DIR"
         mkdir -p "$DEB_DIR/DEBIAN"
@@ -52,30 +53,16 @@ jobs:
           cp usr/share/nekos-viewer/nekos-viewer.py "$DEB_DIR/usr/share/nekos-viewer/"
         else
           echo "ERROR: nekos-viewer.py not found!"
+          find . -name "*.py" -type f | head -20
           exit 1
         fi
         
         chmod 755 "$DEB_DIR/usr/share/nekos-viewer/nekos-viewer.py"
         
-        cat > "$DEB_DIR/usr/bin/nekos-viewer" << 'BINEOF'
-#!/bin/bash
-exec python3 /usr/share/nekos-viewer/nekos-viewer.py "$@"
-BINEOF
+        printf '%s\n' '#!/bin/bash' 'exec python3 /usr/share/nekos-viewer/nekos-viewer.py "$@"' > "$DEB_DIR/usr/bin/nekos-viewer"
         chmod 755 "$DEB_DIR/usr/bin/nekos-viewer"
         
-        cat > "$DEB_DIR/usr/share/applications/nekos-viewer.desktop" << 'DESKEOF'
-[Desktop Entry]
-Name=Nekos Viewer
-Name[zh_CN]=Nekos 图片查看器
-Comment=Fetch random images from Nekos.moe
-Comment[zh_CN]=从 Nekos.moe 获取随机图片
-Exec=nekos-viewer
-Icon=nekos-viewer
-Type=Application
-Categories=Network;Graphics;Viewer;
-Terminal=false
-StartupNotify=true
-DESKEOF
+        printf '[Desktop Entry]\nName=Nekos Viewer\nExec=nekos-viewer\nIcon=nekos-viewer\nType=Application\nCategories=Network;Graphics;\nTerminal=false\n' > "$DEB_DIR/usr/share/applications/nekos-viewer.desktop"
         
         if [ -f "nekos-viewer.png" ]; then
           cp nekos-viewer.png "$DEB_DIR/usr/share/pixmaps/"
@@ -83,35 +70,20 @@ DESKEOF
         elif [ -f "nekos-viewer.svg" ]; then
           cp nekos-viewer.svg "$DEB_DIR/usr/share/pixmaps/"
           chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg"
-        else
-          cat > "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg" << 'SVGEOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="24" fill="#1a1a2e"/>
-  <polygon points="28,45 45,20 55,50" fill="#ff6b6b"/>
-  <polygon points="100,45 83,20 73,50" fill="#ff6b6b"/>
-  <circle cx="64" cy="70" r="32" fill="#2d2d44"/>
-  <ellipse cx="52" cy="65" rx="6" ry="8" fill="#feca57"/>
-  <ellipse cx="76" cy="65" rx="6" ry="8" fill="#feca57"/>
-  <circle cx="53" cy="64" r="3" fill="#1a1a2e"/>
-  <circle cx="77" cy="64" r="3" fill="#1a1a2e"/>
-</svg>
-SVGEOF
-          chmod 644 "$DEB_DIR/usr/share/pixmaps/nekos-viewer.svg"
         fi
         
         VERSION_CLEAN="${VERSION#v}"
-        cat > "$DEB_DIR/DEBIAN/control" << CTRLEOF
-Package: nekos-viewer
-Version: ${VERSION_CLEAN}
-Section: web
-Priority: optional
-Architecture: all
-Depends: python3, python3-gi, gir1.2-gtk-4.0, gir1.2-gdkpixbuf-2.0
-Maintainer: Nekos Viewer Team <13378290421@163.com>
-Description: Random image viewer for Nekos.moe
- A simple GTK4 application for Nekos.moe API.
-CTRLEOF
+        {
+          echo "Package: nekos-viewer"
+          echo "Version: ${VERSION_CLEAN}"
+          echo "Section: web"
+          echo "Priority: optional"
+          echo "Architecture: all"
+          echo "Depends: python3, python3-gi, gir1.2-gtk-4.0, gir1.2-gdkpixbuf-2.0"
+          echo "Maintainer: Nekos Viewer Team <13378290421@163.com>"
+          echo "Description: Random image viewer for Nekos.moe"
+          echo " A simple GTK4 application for Nekos.moe API."
+        } > "$DEB_DIR/DEBIAN/control"
         
         chmod 755 "$DEB_DIR/DEBIAN"
         chmod 644 "$DEB_DIR/DEBIAN/control"
@@ -127,29 +99,24 @@ CTRLEOF
         name: nekos-viewer-deb
         path: nekos-viewer_*.deb
 
-    - name: Create Release (if tag pushed)
+    - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
         files: nekos-viewer_*.deb
         name: Nekos Viewer ${{ github.ref_name }}
         body: |
-          🐱 **Nekos Viewer ${{ github.ref_name }}**
+          Nekos Viewer ${{ github.ref_name }}
 
-          ## 安装
+          ## Installation
           ```bash
           sudo dpkg -i nekos-viewer_*.deb
           sudo apt --fix-broken install
           ```
 
-          ## 依赖
+          ## Requirements
           - Debian 13 / Ubuntu 24.04+
           - python3-gi, gir1.2-gtk-4.0, gir1.2-gdkpixbuf-2.0
-
-          ## 运行
-          ```bash
-          nekos-viewer
-          ```
         draft: false
         prerelease: false
       env:
