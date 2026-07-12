@@ -22,7 +22,7 @@ Screenshot![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 
 - 🎲 **One-click refresh** - Get a new random image instantly
 - 🖼️ **Image display** - GTK4 hardware-accelerated rendering
-- 🏷️ **Tag & artist info** - See who drew it and what tags it has
+- 🏷️ **Tag & artist info** - See who drew it and what tags it has(It's like this in v1.0.2)
 - 🔞 **NSFW toggle** - Switch between SFW and NSFW content
 - 💾 **Save images** - Save to your Downloads folder
 - 📋 **Menu bar** - File (Save, Exit) and About (Website, About dialog)
