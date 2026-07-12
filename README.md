@@ -35,7 +35,7 @@ Screenshot![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ```bash
 wget https://github.com/MinftLeve1/nekos-viewer/releases/download/v1.0.3/nekos-viewer_1.0.3_all.deb
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-gdkpixbuf-2.0
-sudo dpkg -i nekos-viewer_1.0.3_all.deb
+sudo dpkg -i nekos-viewer_1.0.3_all-fix.deb
 sudo apt --fix-broken install
 ```
 
