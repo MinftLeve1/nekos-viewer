@@ -73,4 +73,5 @@ MIT License - See [LICENSE](LICENSE)
 
 - [Nekos.moe](https://nekos.moe) - API by Brussell
 - MKY-AN20 & Kimi AI - Developers
+- You - Project tester or contributor (no matter what, you at least checked out this project)
 '''
