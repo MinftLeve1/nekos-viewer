@@ -14,7 +14,7 @@
 <p>Warning, the screenshot is outdated! 
 <br>
 
-## Screenshot
+## Screenshot:
 Screenshot![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot.png)
 ![Screenshot](https://3w.mky-an20.os.kg/nekos-viewer/screenshot2.png)
 
